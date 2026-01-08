@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Bắt đầu 🥳🥳🥳</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+    font-family:Arial,sans-serif;
+    background:black;
+    color:white;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+/* màn bắt đầu */
+#start{
+    text-align:center;
+    animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1)}
+    50%{transform:scale(1.05)}
+    100%{transform:scale(1)}
+}
+
+h1{
+    font-size:48px;
+    margin-bottom:30px;
+}
+
+button{
+    padding:20px 50px;
+    font-size:26px;
+    border:none;
+    border-radius:20px;
+    cursor:pointer;
+    background:linear-gradient(45deg,#ff0080,#ffcc00);
+    color:black;
+}
+
+/* emoji rơi */
+.fall{
+    position:fixed;
+    top:-50px;
+    font-size:32px;
+    animation:fall linear forwards;
+}
+@keyframes fall{
+    to{
+        transform:translateY(110vh);
+        opacity:0;
+    }
+}
+
+/* jumpscare */
+#scare{
+    position:fixed;
+    inset:0;
+    background:black;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+
+#scare img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    animation:shake 0.12s infinite;
+}
+
+/* rung */
+@keyframes shake{
+    0%{transform:translate(0)}
+    25%{transform:translate(-20px,20px)}
+    50%{transform:translate(20px,-20px)}
+    75%{transform:translate(-20px,-20px)}
+    100%{transform:translate(0)}
+}
+
+/* flash */
+.flash{
+    animation:flash 0.1s infinite;
+}
+@keyframes flash{
+    0%{filter:brightness(1)}
+    100%{filter:brightness(2.5)}
+}
+</style>
+</head>
+
+<body>
+
+<div id="start">
+    <h1>Bắt đầu 🥳🥳🥳</h1>
+    <button onclick="begin()">BẮT ĐẦU 🎉</button>
+</div>
+
+<div id="scare">
+    <img src="scare.jpg">
+</div>
+
+<audio id="sound">
+    <source src="scream.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const scare = document.getElementById("scare");
+const sound = document.getElementById("sound");
+
+/* mưa emoji */
+function rainEmoji(icon,amount,dur){
+    for(let i=0;i<amount;i++){
+        let e=document.createElement("div");
+        e.className="fall";
+        e.innerText=icon;
+        e.style.left=Math.random()*100+"vw";
+        e.style.animationDuration=dur+"s";
+        document.body.appendChild(e);
+        setTimeout(()=>e.remove(),dur*1000);
+    }
+}
+
+function begin(){
+    document.getElementById("start").innerHTML =
+        "<h2>Đang chuẩn bị bất ngờ...</h2>";
+
+    // mưa 🥳 trước
+    rainEmoji("🥳",30,3);
+
+    // delay ngẫu nhiên 3–6s
+    let delay = Math.random()*3000 + 3000;
+
+    setTimeout(()=>{
+        scare.style.display="flex";
+        scare.classList.add("flash");
+        sound.volume=1;
+        sound.play().catch(()=>{});
+    },delay);
+}
+</script>
+
+</body>
+</html>
+
